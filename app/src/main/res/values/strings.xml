@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">RecyclerViewWithCardView</string>
+
+    <string name="title1">Рассвет</string>
+    <string name="title2">Дорога</string>
+    <string name="title3">Водопад</string>
+    <string name="title4">Лес</string>
+    <string name="title5">Осень</string>
+    <string name="title6">Ночь</string>
+    <string name="title7">Гора</string>
+
+    <string name="description1">Волшебный рассвет</string>
+    <string name="description2">Дорога в лесу</string>
+    <string name="description3">Магический водопад</string>
+    <string name="description4">Яркий лес у озера</string>
+    <string name="description5">Красная осень</string>
+    <string name="description6">Таинственная звездная ночь</string>
+    <string name="description7">Одинокая гора</string>
+</resources>
