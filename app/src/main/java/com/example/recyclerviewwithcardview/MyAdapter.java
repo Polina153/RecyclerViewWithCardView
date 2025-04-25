@@ -1,27 +1,37 @@
 package com.example.recyclerviewwithcardview;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     private final String TAG = "MyAdapter";
     private CardSource dataSource;
+    private Activity activity;
     private OnItemClickListener itemClickListener;  // Слушатель будет устанавливаться извне
+
+
+    private int menuPosition;
+
+    public int getMenuPosition() {
+        return menuPosition;
+    }
 
     // Передаём в конструктор источник данных
     // В нашем случае это массив, но может быть и запрос к БД
-    public MyAdapter(CardSource dataSource) {
+    public MyAdapter(CardSource dataSource, Activity activity) {
         this.dataSource = dataSource;
+        this.activity = activity;
     }
 
     @NonNull
@@ -78,6 +88,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             image = itemView.findViewById(R.id.imageView);
             like = itemView.findViewById(R.id.like);
 
+            registerContextMenu(itemView);
+
             // Обработчик нажатий на этом ViewHolder
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,7 +99,32 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     }
                 }
             });
+
+            // Обработчик нажатий на картинке
+            image.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    menuPosition = getLayoutPosition();
+                    itemView.showContextMenu(10, 10);
+                    return true;
+                }
+            });
         }
+
+
+        private void registerContextMenu(@NonNull View itemView) {
+            if (activity != null) {
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        menuPosition = getLayoutPosition();
+                        return false;
+                    }
+                });
+                activity.registerForContextMenu(itemView);
+            }
+        }
+
 
         public void setData(CardData cardData) {
             title.setText(cardData.getTitle());
